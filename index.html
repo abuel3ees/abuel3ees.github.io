@@ -547,7 +547,7 @@ body::before{
 .chapter-stage{
   position:fixed;inset:0;z-index:20;
   opacity:0;pointer-events:none;
-  transition:opacity .7s ease;
+  transition:opacity .35s ease;
 }
 .chapter-stage--active{opacity:1;pointer-events:all}
 
@@ -964,55 +964,75 @@ body::before{
 .jads__store-dot{width:6px;height:6px;border-radius:50%;background:var(--bronze);}
 
 /* ============================================================
-   GRAND ENTRANCE — About chapter first reveal
+   GRAND ENTRANCE — cinematic title card + stone door reveal
    ============================================================ */
-@keyframes entrance-title{
-  0%{opacity:0;transform:translateY(-28px) scale(1.06);letter-spacing:.14em}
-  60%{opacity:1}
+
+/* — Title card layers — */
+@keyframes ge-numeral-drop{
+  0%  {opacity:0;transform:translateY(-60px) scale(1.5);}
+  55% {opacity:1;transform:translateY(6px)  scale(.96);}
+  75% {transform:translateY(-3px) scale(1.01);}
+  100%{opacity:1;transform:translateY(0) scale(1);}
+}
+@keyframes ge-latin-in{
+  0%  {opacity:0;letter-spacing:.55em;}
+  100%{opacity:1;letter-spacing:.13em;}
+}
+@keyframes ge-rule-grow{
+  0%  {transform:scaleX(0);}
+  100%{transform:scaleX(1);}
+}
+@keyframes ge-sub-in{
+  0%  {opacity:0;transform:translateY(12px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+/* card content fades out as doors open */
+@keyframes ge-card-out{
+  0%  {opacity:1;}
+  100%{opacity:0;}
+}
+/* stone doors split */
+@keyframes ge-door-top{
+  0%  {transform:translateY(0);}
+  100%{transform:translateY(-100%);}
+}
+@keyframes ge-door-bot{
+  0%  {transform:translateY(0);}
+  100%{transform:translateY(100%);}
+}
+/* bright flash as doors open */
+@keyframes ge-flash{
+  0%  {opacity:0;}
+  35% {opacity:.9;}
+  100%{opacity:0;}
+}
+/* content enters after doors gone */
+@keyframes ge-portrait-in{
+  0%  {opacity:0;transform:translateX(-56px) scale(.95);}
+  100%{opacity:1;transform:translateX(0) scale(1);}
+}
+@keyframes ge-heading-in{
+  0%  {opacity:0;transform:translateY(-24px) scale(1.06);letter-spacing:.1em}
+  60% {opacity:1;}
   100%{opacity:1;transform:translateY(0) scale(1);letter-spacing:.04em}
 }
-@keyframes entrance-portrait{
-  0%{opacity:0;transform:translateX(-48px) scale(.97)}
-  100%{opacity:1;transform:translateX(0) scale(1)}
+@keyframes ge-body-in{
+  0%  {opacity:0;transform:translateX(44px);}
+  100%{opacity:1;transform:translateX(0);}
 }
-@keyframes entrance-text{
-  0%{opacity:0;transform:translateX(36px)}
-  100%{opacity:1;transform:translateX(0)}
-}
-@keyframes entrance-sweep{
-  0%{opacity:0;top:-2px}
-  10%{opacity:1}
-  90%{opacity:.6}
-  100%{opacity:0;top:100%}
-}
-@keyframes entrance-bloom{
-  0%{opacity:.22}
-  100%{opacity:0}
-}
-/* sweep line + bloom only fire once via .about--entering */
-.about--entering::before{
-  content:"";position:fixed;left:0;right:0;top:-2px;height:2px;z-index:200;
-  background:linear-gradient(90deg,transparent,var(--bronze) 30%,var(--gold,#d4a94b) 50%,var(--bronze) 70%,transparent);
-  animation:entrance-sweep 1.2s .1s cubic-bezier(.4,0,.2,1) both;
-  pointer-events:none;
-}
-.about--entering::after{
-  content:"";position:fixed;inset:0;z-index:190;
-  background:radial-gradient(ellipse 60% 50% at 50% 40%,color-mix(in srgb,var(--bronze) 18%,transparent),transparent 72%);
-  animation:entrance-bloom .9s .05s ease-out both;
-  pointer-events:none;
-}
+
+/* Content entrance class */
 .about--entering .section-head h2{
-  animation:entrance-title .9s .15s cubic-bezier(.2,.8,.2,1) both;
+  animation:ge-heading-in .9s .04s cubic-bezier(.2,.8,.2,1) both;
 }
 .about--entering .about__bust{
-  animation:entrance-portrait .85s .25s cubic-bezier(.2,.8,.2,1) both;
+  animation:ge-portrait-in 1s .1s cubic-bezier(.2,.8,.2,1) both;
 }
 .about--entering .about__body{
-  animation:entrance-text .8s .38s cubic-bezier(.2,.8,.2,1) both;
+  animation:ge-body-in .8s .22s cubic-bezier(.2,.8,.2,1) both;
 }
 .about--entering .about__creed{
-  animation:entrance-text .7s .52s cubic-bezier(.2,.8,.2,1) both;
+  animation:ge-body-in .7s .34s cubic-bezier(.2,.8,.2,1) both;
 }
 
 /* ============================================================
@@ -35990,7 +36010,7 @@ function Contact() {
     className: "k"
   }, "\u2197"), " github.com/abuel3ees"), /*#__PURE__*/React.createElement("a", {
     className: "clink",
-    href: "https://linkedin.com/in/abuel3ees",
+    href: "https://www.linkedin.com/in/abdulrahman-al-essa-a960a928b/",
     target: "_blank",
     rel: "noopener"
   }, /*#__PURE__*/React.createElement("span", {
@@ -36318,7 +36338,7 @@ const DISPLAY_STACK = {
   "Trajan-ish (Cinzel Decorative)": "'Cinzel Decorative','Cinzel', serif"
 };
 const CH_BG = ["var(--bg)", "var(--bg-2)", "var(--bg)", "var(--bg-2)", "var(--bg)"];
-const NAV_SHORT = [["I", "About", "about"], ["II", "Opera", "work"], ["III", "Cursus", "cursus"], ["IV", "Instrumenta", "instrumenta"], ["V", "Contact", "contact"]];
+const NAV_SHORT = [["I", "About", "about"], ["II", "Opera", "work"], ["III", "Cursus", "cursus"], ["IV", "Instrumenta", "instrumenta"], ["V", "JADS", "jads"], ["VI", "Contact", "contact"]];
 
 /* Render the right section component for a chapter index */
 function ChapterContent({
@@ -36380,7 +36400,7 @@ function App() {
     function getDist() {
       const vh = window.innerHeight || 600;
       const cinematic = document.documentElement.style.getPropertyValue("--mo").trim() !== "0.55";
-      return vh * (cinematic ? 1.2 : 0.85);
+      return vh * (cinematic ? 3.2 : 2.4);
     }
     function applyP(newP) {
       p = Math.min(1, Math.max(0, newP));
@@ -36439,19 +36459,141 @@ function App() {
     }
   }, [veilDone, chIdx]);
 
-  /* ---------- first chapter grand entrance ---------- */
+  /* ---------- GRAND ENTRANCE — cinematic title card + stone door reveal ---------- */
   useEffect(function () {
     if (!veilDone) return;
+
+    var DOOR_OPEN   = 1500; /* ms until doors split */
+    var DOOR_DUR    = 650;  /* door animation duration */
+    var CONTENT_IN  = DOOR_OPEN + DOOR_DUR - 100; /* content enters as doors leave */
+
+    /* Marble-like background for the card */
+    var marblebg = [
+      'repeating-linear-gradient(-52deg,transparent,transparent 38px,',
+        'rgba(160,120,60,.028) 38px,rgba(160,120,60,.028) 39px),',
+      'linear-gradient(175deg,#0c0a06 0%,#1c1710 45%,#0d0b07 100%)'
+    ].join('');
+
+    /* ── Overlay wrapper ── */
+    var ov = document.createElement('div');
+    ov.id = 'ge-overlay';
+    ov.style.cssText = 'position:fixed;inset:0;z-index:9000;pointer-events:none;';
+
+    /* ── Top stone door ── */
+    var dTop = document.createElement('div');
+    dTop.style.cssText = [
+      'position:absolute;left:0;right:0;top:0;height:50%;',
+      'background:'+marblebg+';',
+      'animation:ge-door-top '+DOOR_DUR+'ms '+DOOR_OPEN+'ms cubic-bezier(.7,0,.3,1) both;'
+    ].join('');
+
+    /* ── Bottom stone door ── */
+    var dBot = document.createElement('div');
+    dBot.style.cssText = [
+      'position:absolute;left:0;right:0;bottom:0;height:50%;',
+      'background:'+marblebg+';',
+      'animation:ge-door-bot '+DOOR_DUR+'ms '+DOOR_OPEN+'ms cubic-bezier(.7,0,.3,1) both;'
+    ].join('');
+
+    /* ── Center hairline where doors meet ── */
+    var seam = document.createElement('div');
+    seam.style.cssText = [
+      'position:absolute;left:0;right:0;top:50%;height:1px;',
+      'background:linear-gradient(90deg,transparent 0%,',
+        'color-mix(in srgb,var(--bronze) 55%,transparent) 20%,',
+        'var(--gold,#d4a94b) 50%,',
+        'color-mix(in srgb,var(--bronze) 55%,transparent) 80%,transparent 100%);',
+      'box-shadow:0 0 12px 2px color-mix(in srgb,var(--bronze) 40%,transparent);',
+      'animation:ge-card-out 300ms '+(DOOR_OPEN+100)+'ms ease-out both;'
+    ].join('');
+
+    /* ── Card content (numeral + titles) ── */
+    var card = document.createElement('div');
+    card.style.cssText = [
+      'position:absolute;inset:0;display:flex;flex-direction:column;',
+      'align-items:center;justify-content:center;gap:clamp(8px,1.8vh,20px);',
+      'animation:ge-card-out 350ms '+(DOOR_OPEN+80)+'ms ease-out both;'
+    ].join('');
+
+    /* big Roman numeral */
+    var num = document.createElement('div');
+    num.textContent = 'I';
+    num.style.cssText = [
+      'font-family:"Cinzel Decorative","Cinzel",serif;',
+      'font-size:clamp(7rem,18vw,14rem);font-weight:700;line-height:1;',
+      'color:var(--bronze,#a07840);',
+      'text-shadow:',
+        '0 0 60px color-mix(in srgb,var(--bronze) 55%,transparent),',
+        '0 0 120px color-mix(in srgb,var(--bronze) 28%,transparent),',
+        '0 2px 0 rgba(0,0,0,.6);',
+      'animation:ge-numeral-drop .75s .05s cubic-bezier(.2,.8,.2,1) both;'
+    ].join('');
+
+    /* thin rule */
+    var rule = document.createElement('div');
+    rule.style.cssText = [
+      'width:clamp(120px,22vw,280px);height:1px;',
+      'background:linear-gradient(90deg,transparent,var(--bronze),transparent);',
+      'transform-origin:center;transform:scaleX(0);',
+      'animation:ge-rule-grow .6s .55s ease-out both;'
+    ].join('');
+
+    /* Latin chapter name */
+    var lat = document.createElement('div');
+    lat.textContent = 'DE ARTIFICE';
+    lat.style.cssText = [
+      'font-family:"Cinzel",serif;font-size:clamp(.9rem,2.2vw,1.5rem);',
+      'font-weight:600;color:var(--bronze,#a07840);letter-spacing:.13em;',
+      'text-transform:uppercase;',
+      'animation:ge-latin-in .7s .5s cubic-bezier(.2,.8,.2,1) both;'
+    ].join('');
+
+    /* English subtitle */
+    var sub = document.createElement('div');
+    sub.textContent = 'On the Maker';
+    sub.style.cssText = [
+      'font-family:"EB Garamond","Georgia",serif;font-style:italic;',
+      'font-size:clamp(.75rem,1.6vw,1.1rem);',
+      'color:color-mix(in srgb,var(--ink-soft,#b8a882) 80%,transparent);',
+      'letter-spacing:.06em;',
+      'animation:ge-sub-in .55s .75s ease-out both;'
+    ].join('');
+
+    card.appendChild(num);
+    card.appendChild(rule);
+    card.appendChild(lat);
+    card.appendChild(sub);
+
+    /* ── Flash as doors open ── */
+    var flash = document.createElement('div');
+    flash.style.cssText = [
+      'position:absolute;inset:0;',
+      'background:radial-gradient(ellipse 70% 50% at 50% 50%,',
+        'color-mix(in srgb,var(--gold,#d4a94b) 55%,transparent),',
+        'color-mix(in srgb,var(--bronze) 20%,transparent) 55%,',
+        'transparent 80%);',
+      'animation:ge-flash 700ms '+(DOOR_OPEN+80)+'ms ease-out both;'
+    ].join('');
+
+    ov.appendChild(dTop);
+    ov.appendChild(dBot);
+    ov.appendChild(seam);
+    ov.appendChild(card);
+    ov.appendChild(flash);
+    document.body.appendChild(ov);
+
+    /* ── Trigger content animations and remove overlay ── */
     setTimeout(function () {
       activatePanelFx(0);
-      /* add entrance class once for cinematic reveal */
-      const panel = document.querySelectorAll(".chapter-panel")[0];
-      const section = panel && panel.querySelector(".section");
+      var panel = document.querySelectorAll('.chapter-panel')[0];
+      var section = panel && panel.querySelector('.section');
       if (section) {
-        section.classList.add("about--entering");
-        setTimeout(function(){ section.classList.remove("about--entering"); }, 2000);
+        section.classList.add('about--entering');
+        setTimeout(function(){ section.classList.remove('about--entering'); }, 2200);
       }
-    }, 420);
+    }, CONTENT_IN);
+
+    setTimeout(function(){ ov.remove(); }, DOOR_OPEN + DOOR_DUR + 400);
   }, [veilDone]);
 
   /* ---------- goTo ---------- */
@@ -36497,8 +36639,8 @@ function App() {
       document.body.appendChild(bar);
     }
 
-    const THRESHOLD = 320; /* total deltaY needed to flip chapter */
-    const DECAY_MS  = 500; /* ms of idle before acc resets */
+    const THRESHOLD = 1600; /* total deltaY needed to flip chapter */
+    const DECAY_MS  = 380; /* ms of idle before acc resets — short so you must scroll continuously */
     let acc = 0, decayTimer = null, fired = false;
 
     function setBar(ratio) {
