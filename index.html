@@ -36402,8 +36402,12 @@ function App() {
       const cinematic = document.documentElement.style.getPropertyValue("--mo").trim() !== "0.55";
       return vh * (cinematic ? 3.2 : 2.4);
     }
-    function applyP(newP) {
-      p = Math.min(1, Math.max(0, newP));
+
+    /* Smooth scroll: lerp p toward targetP each frame */
+    let targetP = 0;
+    let rafId   = null;
+
+    function renderP() {
       veil.style.setProperty("--p", p.toFixed(4));
       const spark = Math.max(0, 1 - Math.abs(p - 0.1) / 0.16);
       veil.style.setProperty("--spark", spark.toFixed(3));
@@ -36414,11 +36418,29 @@ function App() {
       }
     }
 
+    function tick() {
+      const dist = targetP - p;
+      if (Math.abs(dist) < 0.0008) {
+        p = targetP;
+        renderP();
+        rafId = null;
+        return;
+      }
+      p += dist * 0.09;   /* lerp factor — lower = smoother/slower glide */
+      renderP();
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function applyP(newP) {
+      targetP = Math.min(1, Math.max(0, newP));
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    }
+
     /* primary: wheel events fire reliably everywhere */
     function onWheel(e) {
       if (veilRef.current) return;
       e.preventDefault();
-      applyP(p + e.deltaY / getDist());
+      applyP(targetP + e.deltaY / getDist());
     }
 
     /* backup: native scroll (touchpad inertia, keyboard, etc.) */
