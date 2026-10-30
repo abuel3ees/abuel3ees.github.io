@@ -1,0 +1,181 @@
+/* ==========================================================================
+   Project themes. Each case page opens in the museum and, once the reader
+   scrolls past the hero, crossfades into the project's own visual language.
+   Tokens are registered so colours interpolate instead of snapping.
+   ========================================================================== */
+
+@property --bg{syntax:"<color>";inherits:true;initial-value:#0b0a08}
+@property --bg-2{syntax:"<color>";inherits:true;initial-value:#12100c}
+@property --bg-3{syntax:"<color>";inherits:true;initial-value:#1a1712}
+@property --panel{syntax:"<color>";inherits:true;initial-value:#15130f}
+@property --ink{syntax:"<color>";inherits:true;initial-value:#efe6d4}
+@property --ink-soft{syntax:"<color>";inherits:true;initial-value:#b3a78f}
+@property --ink-faint{syntax:"<color>";inherits:true;initial-value:#7a705e}
+@property --gold{syntax:"<color>";inherits:true;initial-value:#c9a463}
+@property --gold-2{syntax:"<color>";inherits:true;initial-value:#e8cd92}
+@property --gold-3{syntax:"<color>";inherits:true;initial-value:#8f7340}
+@property --blood{syntax:"<color>";inherits:true;initial-value:#8b2a1b}
+@property --blood-2{syntax:"<color>";inherits:true;initial-value:#b4432c}
+@property --line{syntax:"<color>";inherits:true;initial-value:rgba(239,230,212,.10)}
+@property --line-2{syntax:"<color>";inherits:true;initial-value:rgba(239,230,212,.22)}
+
+body[data-project]{
+  transition:
+    --bg 1.2s var(--ease), --bg-2 1.2s var(--ease), --bg-3 1.2s var(--ease), --panel 1.2s var(--ease),
+    --ink 1.2s var(--ease), --ink-soft 1.2s var(--ease), --ink-faint 1.2s var(--ease),
+    --gold 1.2s var(--ease), --gold-2 1.2s var(--ease), --gold-3 1.2s var(--ease),
+    --blood 1.2s var(--ease), --blood-2 1.2s var(--ease), --line 1.2s var(--ease), --line-2 1.2s var(--ease);
+}
+
+/* texture layer (inserted by main.js) */
+.theme-tex{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 1.4s var(--ease);transform:translateZ(0)}
+body.themed .theme-tex{opacity:1}
+.grain{opacity:var(--grain-op,.06)}
+.vignette{opacity:var(--vig-op,1);transition:opacity 1.2s var(--ease)}
+
+/* shared themed type behaviour */
+body.themed :is(em,.chapter__label .n,.step .n,.trinity .big,.two-sys .n){font-style:var(--em-style,italic)}
+body.themed :is(.case-hero__title,.chapter h2,.chapter h3,.chapter .pull,.card h4,.step h4,.next__title,.principle h4,.two-sys h4,.mod b,.opts b,.trinity h4){
+  font-weight:var(--display-weight,400);letter-spacing:var(--display-track,-.02em)}
+body.themed .case-hero__title{letter-spacing:var(--title-track,-.045em)}
+body.themed .theme-toggle{opacity:.25;pointer-events:none}
+body.themed :is(.btn,.lab__btn,.tag,.chip){border-radius:var(--pill,999px)}
+body.themed :is(.card,.lab,.figure__frame,.tree,.csv){border-radius:var(--radius,0)}
+body.themed :is(.lab,.figure__frame,.tree,.csv){overflow:hidden}
+
+/* ---------- Vectora: quantum lab ---------- */
+body.themed[data-project="vectora"]{
+  --bg:#05070d;--bg-2:#0a0f1c;--bg-3:#0f1628;--panel:#0b1222;
+  --ink:#e6f0ff;--ink-soft:#9fb2cf;--ink-faint:#5d6f8c;
+  --gold:#45d6ff;--gold-2:#b39bff;--gold-3:#2a6f8f;--blood:#a8336a;--blood-2:#ff5c8a;
+  --line:rgba(120,190,255,.10);--line-2:rgba(120,190,255,.24);--glow:rgba(69,214,255,.5);
+  --f-display:'Space Grotesk',var(--f-body);--f-body:'IBM Plex Sans','Helvetica Neue',sans-serif;
+  --em-style:normal;--display-weight:500;--display-track:-.03em;--title-track:-.06em;
+  --dust-rgb:110,220,255;--radius:6px;color-scheme:dark;
+}
+body[data-project="vectora"] .theme-tex{
+  background:
+    radial-gradient(55% 45% at 85% 0%,rgba(179,155,255,.16),transparent 70%),
+    radial-gradient(50% 45% at 0% 100%,rgba(69,214,255,.12),transparent 70%),
+    linear-gradient(rgba(120,190,255,.05) 1px,transparent 1px) 0 0/48px 48px,
+    linear-gradient(90deg,rgba(120,190,255,.05) 1px,transparent 1px) 0 0/48px 48px;
+}
+
+/* ---------- Sahl: modernist civic red ---------- */
+body.themed[data-project="sahl"]{
+  --bg:#f3f2f2;--bg-2:#e9e7e6;--bg-3:#dedbd9;--panel:#ffffff;
+  --ink:#201e1d;--ink-soft:#4d4846;--ink-faint:#8a8380;
+  --gold:#ec3013;--gold-2:#ec3013;--gold-3:#b32410;--blood:#ec3013;--blood-2:#ec3013;
+  --line:rgba(32,30,29,.14);--line-2:#201e1d;--glow:rgba(236,48,19,.4);
+  --f-display:'Archivo','Helvetica Neue',sans-serif;--f-body:'Archivo','Helvetica Neue',sans-serif;
+  --em-style:normal;--display-weight:800;--display-track:-.035em;--title-track:-.05em;
+  --dust-rgb:236,48,19;--grain-op:0;--vig-op:0;--pill:0;--radius:0;color-scheme:light;
+}
+body.themed[data-project="sahl"] :is(.card,.lab,.figure__frame,.principles,.steps,.facts){border-width:2px}
+body.themed[data-project="sahl"] .chapter h2{text-transform:none}
+body[data-project="sahl"] .theme-tex{
+  background:
+    linear-gradient(#ec3013,#ec3013) 0 0/100% 6px no-repeat,
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'><g fill='none' stroke='%23ec3013' stroke-opacity='.09' stroke-width='1.5'><rect x='110' y='110' width='200' height='200' transform='rotate(22 210 210)'/><rect x='110' y='110' width='200' height='200' transform='rotate(67 210 210)'/></g></svg>") 0 0/420px 420px;
+}
+
+/* ---------- RISC-V: oscilloscope / blueprint ---------- */
+body.themed[data-project="cpu"]{
+  --bg:#040906;--bg-2:#07110a;--bg-3:#0b1a10;--panel:#08140c;
+  --ink:#c9ffd6;--ink-soft:#7fbf8e;--ink-faint:#4a7a56;
+  --gold:#39ff7a;--gold-2:#9dffb8;--gold-3:#1f7a3c;--blood:#7a5200;--blood-2:#ffb000;
+  --line:rgba(57,255,122,.10);--line-2:rgba(57,255,122,.26);--glow:rgba(57,255,122,.5);
+  --f-display:'IBM Plex Mono',ui-monospace,monospace;--f-body:'IBM Plex Sans','Helvetica Neue',sans-serif;
+  --em-style:normal;--display-weight:500;--display-track:-.04em;--title-track:-.07em;
+  --dust-rgb:57,255,122;--radius:0;--pill:2px;color-scheme:dark;
+}
+body.themed[data-project="cpu"] .chapter h2 em{text-shadow:0 0 18px rgba(57,255,122,.45)}
+body.themed[data-project="cpu"] .ptable td.IF{background:#1d4a2a}
+body.themed[data-project="cpu"] .ptable td.ID{background:#24703b}
+body.themed[data-project="cpu"] .ptable td.EX{background:#2fae58}
+body.themed[data-project="cpu"] .ptable td.MEM{background:#57e283}
+body.themed[data-project="cpu"] .ptable td.WB{background:#b7ffcb}
+body.themed[data-project="cpu"] .ptable td.stall{background:repeating-linear-gradient(135deg,#6b4700 0 6px,#ffb000 6px 12px);color:#000}
+body[data-project="cpu"] .theme-tex{
+  background:
+    repeating-linear-gradient(0deg,rgba(57,255,122,.035) 0 1px,transparent 1px 3px),
+    linear-gradient(rgba(57,255,122,.05) 1px,transparent 1px) 0 0/24px 24px,
+    linear-gradient(90deg,rgba(57,255,122,.05) 1px,transparent 1px) 0 0/24px 24px,
+    radial-gradient(70% 60% at 50% 40%,rgba(57,255,122,.07),transparent 70%);
+}
+
+/* ---------- JADS: navy & paper ---------- */
+body.themed[data-project="jads"]{
+  --bg:#f6f4ef;--bg-2:#ece8df;--bg-3:#e2ddd1;--panel:#ffffff;
+  --ink:#13213a;--ink-soft:#3d4b63;--ink-faint:#7b879a;
+  --gold:#a8452c;--gold-2:#a8452c;--gold-3:#d9b9a8;--blood:#a8452c;--blood-2:#c25a3f;
+  --line:rgba(19,33,58,.12);--line-2:rgba(19,33,58,.24);--glow:rgba(168,69,44,.35);
+  --f-display:'DM Serif Display',Georgia,serif;--f-body:'DM Sans','Helvetica Neue',sans-serif;
+  --em-style:italic;--display-weight:400;--display-track:-.015em;--title-track:-.03em;
+  --dust-rgb:168,69,44;--grain-op:.03;--vig-op:0;--radius:16px;color-scheme:light;
+}
+body[data-project="jads"] .theme-tex{
+  background:
+    radial-gradient(60% 40% at 50% 0%,rgba(19,33,58,.07),transparent 70%),
+    radial-gradient(rgba(19,33,58,.09) 1px,transparent 1.6px) 0 0/22px 22px;
+}
+
+/* ---------- Tibbuk: clinical mint ---------- */
+body.themed[data-project="tibbuk"]{
+  --bg:#eef5f4;--bg-2:#e1eeec;--bg-3:#d3e6e3;--panel:#ffffff;
+  --ink:#12313a;--ink-soft:#3f5d64;--ink-faint:#7c9599;
+  --gold:#1f8a83;--gold-2:#0f6b66;--gold-3:#9cc9c3;--blood:#b8404a;--blood-2:#e0565b;
+  --line:rgba(18,49,58,.10);--line-2:rgba(18,49,58,.20);--glow:rgba(31,138,131,.35);
+  --f-display:'Bricolage Grotesque','Helvetica Neue',sans-serif;--f-body:'Manrope','Helvetica Neue',sans-serif;
+  --em-style:normal;--display-weight:700;--display-track:-.035em;--title-track:-.055em;
+  --dust-rgb:31,138,131;--grain-op:.02;--vig-op:0;--radius:20px;color-scheme:light;
+}
+body.themed[data-project="tibbuk"] .card{box-shadow:0 18px 40px -26px rgba(18,49,58,.35)}
+body[data-project="tibbuk"] .theme-tex{
+  background:
+    radial-gradient(45% 40% at 90% 10%,rgba(31,138,131,.10),transparent 70%),
+    radial-gradient(40% 35% at 5% 90%,rgba(224,86,91,.06),transparent 70%),
+    radial-gradient(rgba(31,138,131,.12) 1.2px,transparent 1.7px) 0 0/26px 26px;
+}
+
+/* ---------- Abujad: amber & oud ---------- */
+body.themed[data-project="abujad"]{
+  --bg:#120a05;--bg-2:#1b100a;--bg-3:#24160c;--panel:#1e130b;
+  --ink:#f6e7c8;--ink-soft:#cdb38c;--ink-faint:#8c7458;
+  --gold:#e6c27a;--gold-2:#f0b45a;--gold-3:#8a5a24;--blood:#7a3416;--blood-2:#c4693a;
+  --line:rgba(240,200,140,.12);--line-2:rgba(240,200,140,.26);--glow:rgba(240,180,90,.5);
+  --f-display:'Cormorant Garamond',Garamond,serif;--f-body:'IBM Plex Sans Arabic','Helvetica Neue',sans-serif;
+  --em-style:italic;--display-weight:500;--display-track:-.01em;--title-track:-.03em;
+  --dust-rgb:240,180,90;--radius:2px;color-scheme:dark;
+}
+body[data-project="abujad"] .theme-tex{
+  background:
+    radial-gradient(50% 40% at 15% 5%,rgba(240,180,90,.16),transparent 70%),
+    radial-gradient(55% 45% at 95% 95%,rgba(196,105,58,.16),transparent 70%),
+    radial-gradient(30% 25% at 70% 40%,rgba(230,194,122,.06),transparent 70%);
+}
+
+/* ---------- CatActro: macOS Liquid Glass ---------- */
+body.themed[data-project="catactro"]{
+  --bg:#17161d;--bg-2:#22212a;--bg-3:#2b2a34;--panel:#22212a;
+  --ink:#f5f5f7;--ink-soft:#b0b0ba;--ink-faint:#74747e;
+  --gold:#7c9bff;--gold-2:#d58bff;--gold-3:#3a4fa8;--blood:#a8322c;--blood-2:#ff5f57;
+  --line:rgba(255,255,255,.09);--line-2:rgba(255,255,255,.18);--glow:rgba(124,155,255,.5);
+  --f-display:-apple-system,BlinkMacSystemFont,'SF Pro Display','Inter Tight',sans-serif;
+  --f-body:-apple-system,BlinkMacSystemFont,'SF Pro Text','Inter Tight',sans-serif;
+  --em-style:normal;--display-weight:600;--display-track:-.03em;--title-track:-.05em;
+  --dust-rgb:200,170,255;--radius:16px;color-scheme:dark;
+}
+body.themed[data-project="catactro"] :is(.card,.lab,.key){
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 20px 40px -24px rgba(0,0,0,.6)}
+body.themed[data-project="catactro"] .key{border-radius:12px}
+body.themed[data-project="catactro"] .chapter h2 em{background:linear-gradient(90deg,#ff9f6b,#d58bff,#7c9bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+body[data-project="catactro"] .theme-tex{
+  background:
+    radial-gradient(45% 40% at 10% 15%,rgba(255,159,107,.16),transparent 70%),
+    radial-gradient(45% 45% at 90% 30%,rgba(213,139,255,.16),transparent 70%),
+    radial-gradient(55% 45% at 60% 100%,rgba(124,155,255,.18),transparent 70%);
+}
+
+@media (prefers-reduced-motion:reduce){body[data-project]{transition:none}}

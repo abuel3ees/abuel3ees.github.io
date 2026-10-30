@@ -126,18 +126,28 @@
     var sprite = document.createElement("canvas");
     var paintSprite = function () {
       var light = doc.getAttribute("data-theme") === "light";
+      /* a project theme can re-tint the dust through --dust-rgb */
+      var rgb = document.body && document.body.classList.contains("themed")
+        ? getComputedStyle(document.body).getPropertyValue("--dust-rgb").trim() : "";
       sprite.width = sprite.height = 16;
       var sc = sprite.getContext("2d");
       var g = sc.createRadialGradient(8, 8, 0, 8, 8, 8);
-      g.addColorStop(0, light ? "rgba(140,105,45,.9)" : "rgba(255,240,205,1)");
-      g.addColorStop(0.35, light ? "rgba(140,105,45,.45)" : "rgba(232,205,146,.55)");
-      g.addColorStop(1, "rgba(232,205,146,0)");
+      if (rgb) {
+        g.addColorStop(0, "rgba(" + rgb + ",.95)");
+        g.addColorStop(0.35, "rgba(" + rgb + ",.45)");
+        g.addColorStop(1, "rgba(" + rgb + ",0)");
+      } else {
+        g.addColorStop(0, light ? "rgba(140,105,45,.9)" : "rgba(255,240,205,1)");
+        g.addColorStop(0.35, light ? "rgba(140,105,45,.45)" : "rgba(232,205,146,.55)");
+        g.addColorStop(1, "rgba(232,205,146,0)");
+      }
       sc.clearRect(0, 0, 16, 16);
       sc.fillStyle = g;
       sc.fillRect(0, 0, 16, 16);
     };
     paintSprite();
     new MutationObserver(paintSprite).observe(doc, { attributes: true, attributeFilter: ["data-theme"] });
+    document.addEventListener("ae:theme", paintSprite);
     var resize = function () {
       W = dust.width = innerWidth;
       H = dust.height = innerHeight;
@@ -537,12 +547,63 @@
     });
   }
 
+  /* ---------- Project theme: museum → project once past the hero ---------- */
+  function initProjectTheme() {
+    var body = document.body, project = body.getAttribute("data-project");
+    var banner = $(".case-banner");
+    if (!project || !banner) return;
+    var tex = document.createElement("div");
+    tex.className = "theme-tex";
+    tex.setAttribute("aria-hidden", "true");
+    body.insertBefore(tex, body.firstChild);
+
+    /* fetch the theme's fonts now so the swap never shows a fallback face */
+    if (document.fonts && document.fonts.load) {
+      (body.getAttribute("data-fonts") || "").split("|").forEach(function (f) {
+        if (!f) return;
+        document.fonts.load('400 1em "' + f + '"');
+        document.fonts.load('700 1em "' + f + '"');
+      });
+    }
+
+    var content = $$(".case-hero .wrap, .case-hero__crumb, main > .wrap, .next, .nav, .foot");
+    var on = false, busy = false, ticking = false;
+    var apply = function (next) {
+      if (next === on || busy) return;
+      on = next;
+      var swap = function () {
+        body.classList.toggle("themed", on);
+        document.dispatchEvent(new CustomEvent("ae:theme", { detail: { on: on } }));
+      };
+      if (!hasGSAP || reduced) { swap(); return; }
+      busy = true;
+      /* colours crossfade via @property; type swaps while the text dips */
+      gsap.timeline({ onComplete: function () { busy = false; check(); } })
+        .to(content, { opacity: 0.12, duration: 0.22, ease: "power2.in" })
+        .add(swap)
+        .to(content, { opacity: 1, duration: 0.6, ease: "power2.out", clearProps: "opacity" }, "+=0.05")
+        .add(function () { ScrollTrigger.refresh(); });
+    };
+    /* hysteresis: enter when the banner passes 45% of the viewport, leave only below 70% */
+    var check = function () {
+      ticking = false;
+      var top = banner.getBoundingClientRect().top, vh = innerHeight;
+      if (!on && top < vh * 0.45) apply(true);
+      else if (on && top > vh * 0.7) apply(false);
+    };
+    window.addEventListener("scroll", function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(check); }
+    }, { passive: true });
+    check();
+  }
+
   /* ---------- Boot ---------- */
   var booted = false;
   function boot() {
     if (booted) return;
     booted = true;
     initHome();
+    initProjectTheme();
     intro(function () {
       initReveals();
       if (hasGSAP) ScrollTrigger.refresh();

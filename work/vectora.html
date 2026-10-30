@@ -11,7 +11,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../assets/css/main.css" />
+<link rel="stylesheet" href="../assets/css/themes.css" />
 <style>
   .vrp-canvas{display:block;width:100%;aspect-ratio:16/10;background:var(--bg-2)}
   .trinity{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line-2);margin-top:40px}
@@ -27,7 +29,7 @@
   @media (max-width:820px){.recur{grid-template-columns:1fr 1fr}.recur div::after{display:none}}
 </style>
 </head>
-<body>
+<body data-project="vectora" data-fonts="Space Grotesk|IBM Plex Sans">
 <div class="curtain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
 <canvas id="dust" aria-hidden="true"></canvas>
 <div class="vignette" aria-hidden="true"></div>
