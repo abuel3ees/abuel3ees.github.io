@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="js">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vectora: Abdulrahman Al-Essa</title>
+<meta name="description" content="Vectora is a quantum-classical vehicle routing system: a recursive QAOA solver, a Laravel and React dispatch console, and a Flutter driver app." />
+<meta name="theme-color" content="#0b0a08" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%230b0a08'/><text x='50%' y='58%' text-anchor='middle' dominant-baseline='middle' font-family='Georgia' font-style='italic' font-size='40' fill='%23e8cd92'>Æ</text></svg>" />
+<script>try{var t=localStorage.getItem('ae-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/main.css" />
+<style>
+  .vrp-canvas{display:block;width:100%;aspect-ratio:16/10;background:var(--bg-2)}
+  .trinity{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line-2);margin-top:40px}
+  .trinity .card{border:0;border-right:1px solid var(--line);background:transparent}
+  .trinity .card:last-child{border-right:0}
+  .trinity .big{font-family:var(--f-display);font-style:italic;font-size:64px;line-height:1;color:var(--gold);margin-bottom:18px}
+  @media (max-width:820px){.trinity{grid-template-columns:1fr}.trinity .card{border-right:0;border-bottom:1px solid var(--line)}}
+  .recur{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:32px;align-items:stretch}
+  .recur div{border:1px solid var(--line-2);padding:16px;position:relative}
+  .recur div b{display:block;font-family:var(--f-mono);font-weight:400;font-size:10px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+  .recur div span{font-size:14px;color:var(--ink-soft)}
+  .recur div:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:50%;transform:translateY(-50%);color:var(--gold);background:var(--bg);font-size:14px;z-index:1}
+  @media (max-width:820px){.recur{grid-template-columns:1fr 1fr}.recur div::after{display:none}}
+</style>
+</head>
+<body>
+<div class="curtain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+<canvas id="dust" aria-hidden="true"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <a href="../index.html" class="brand" aria-label="Home"><span class="brand__mark">Æ</span><span class="brand__name">Al-Essa · Works</span></a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="../index.html#work" class="keep">All works</a>
+    <a href="sahl.html">Next: Sahl</a>
+    <button class="theme-toggle" aria-label="Toggle light and dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor"/></svg></button>
+  </nav>
+</header>
+
+<main>
+<section class="case-hero">
+  <div class="case-hero__crumb mono"><a href="../index.html#work">← Opera</a><span>№ I of VII</span></div>
+  <div class="wrap">
+    <div class="case-hero__opus eyebrow"><i></i>Senior design · Quantum + classical</div>
+    <h1 class="case-hero__title"><span data-hero-split>Vec</span><em data-hero-split>tora</em></h1>
+    <div class="case-hero__sub">
+      <p class="case-hero__lede">Can a quantum algorithm route a delivery fleet? I built the <em>whole system</em> to find out, from the solver to the dispatch console to the app in the driver's hand.</p>
+      <dl class="facts">
+        <div class="fact"><dt>Role</dt><dd>Sole engineer</dd></div>
+        <div class="fact"><dt>Year</dt><dd>2025 – 2026</dd></div>
+        <div class="fact"><dt>Solver</dt><dd>Python · Qiskit · OR-Tools</dd></div>
+        <div class="fact"><dt>Platform</dt><dd>Laravel 13 · React 19 · Flutter</dd></div>
+        <div class="fact"><dt>Code</dt><dd><a href="https://github.com/abuel3ees/VRP-Optimization-Using-QAOA-Other-Algorithms-" target="_blank" rel="noopener">Solver ↗</a> · <a href="https://github.com/abuel3ees/Vectora-Web" target="_blank" rel="noopener">Web ↗</a> · <a href="https://github.com/abuel3ees/Vectora-Mobile" target="_blank" rel="noopener">Mobile ↗</a></dd></div>
+        <div class="fact"><dt>Instances</dt><dd>9 · 50 / 100 / 200 nodes</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<div class="case-banner"><div class="art-routes" data-art="routes" data-seed="23" data-n="90" data-k="8"></div></div>
+
+<div class="wrap">
+  <section class="chapter">
+    <div class="chapter__label"><div class="n">i</div><span class="t">The question</span></div>
+    <div class="chapter__body">
+      <h2 data-split>The routing problem is <em>older than the computer</em>, and it still isn't solved.</h2>
+      <p class="rv">The Vehicle Routing Problem asks for the cheapest set of routes that lets a fleet of capacity-limited vehicles visit every customer and return home. It's NP-hard: the number of possible solutions grows factorially, and exact methods give up long before a city-sized fleet. Every logistics company in the world runs heuristics and hopes they're close enough.</p>
+      <p class="rv">QAOA, the Quantum Approximate Optimisation Algorithm, is one of the leading near-term candidates for this kind of problem. But today's quantum hardware has only a few qubits, and a 100-customer instance needs thousands. So the real research question was never "can QAOA solve VRP?" It was: <strong>how do you break the problem down until the quantum part has something it can actually do, and how honest are the results once you do?</strong></p>
+      <p class="pull rv">A thesis is only worth reading if it reports where the quantum approach loses, too.</p>
+    </div>
+  </section>
+
+  <section class="chapter">
+    <div class="chapter__label"><div class="n">ii</div><span class="t">The method</span></div>
+    <div class="chapter__body">
+      <h2 data-split>Recursive decomposition, <em>then</em> quantum.</h2>
+      <p class="rv">The solver splits the instance recursively until each leaf is small enough to encode as a QUBO within the qubit budget. QAOA solves each leaf, every leaf is checked against a brute-force optimum, and the routes are stitched back together. A classical polishing pass then runs on top: 2-opt within routes, plus Or-opt and 2-opt* between them.</p>
+      <div class="recur rv">
+        <div><b>01 · Split</b><span>Divide the customers recursively into leaf sub-problems</span></div>
+        <div><b>02 · Encode</b><span>Turn each leaf into a QUBO that fits the qubit budget</span></div>
+        <div><b>03 · QAOA</b><span>Solve the leaf on Qiskit and check it against the true optimum</span></div>
+        <div><b>04 · Polish</b><span>Stitch the routes and apply 2-opt, Or-opt and 2-opt*</span></div>
+      </div>
+      <p class="rv">Everything runs from one launcher across nine benchmark instances: <code>RioClaroPostToy</code> at 50, 100 and 200 nodes, with a sweep over vehicle counts. Results land in a <code>instance/K_vehicles/[plots|data|logs]</code> folder tree as CSV, JSON and Markdown, so any run can be reproduced exactly.</p>
+
+      <div class="lab rv" id="lab">
+        <div class="lab__bar">
+          <span class="eyebrow">Live lab · real algorithms in your browser</span>
+          <div class="lab__ctrls">
+            <button class="lab__btn on" data-algo="nn">Nearest-neighbour</button>
+            <button class="lab__btn" data-algo="sweep">Sweep</button>
+            <button class="lab__btn" data-algo="cw">Clarke-Wright</button>
+            <button class="lab__btn" data-opt>+ 2-opt</button>
+            <button class="lab__btn" data-new>New instance</button>
+          </div>
+        </div>
+        <canvas class="vrp-canvas" aria-label="Vehicle routing visualisation"></canvas>
+        <div class="lab__foot">
+          <span>Customers <b data-o="n">—</b></span>
+          <span>Vehicles <b data-o="k">—</b></span>
+          <span>Capacity <b data-o="q">—</b></span>
+          <span>Total distance <b data-o="d">—</b></span>
+          <span>vs. best seen <b data-o="g">—</b></span>
+        </div>
+      </div>
+      <p class="rv" style="font-size:14px">The lab runs the same classical baselines the thesis compares against, rebuilt in plain JavaScript on random capacitated instances. Try Sweep, then Clarke-Wright, then switch on 2-opt and watch the total drop.</p>
+    </div>
+  </section>
+
+  <section class="chapter">
+    <div class="chapter__label"><div class="n">iii</div><span class="t">The results</span></div>
+    <div class="chapter__body">
+      <h2 data-split>The quantum leaves come back <em>optimal</em>. The whole fleet is a harder problem.</h2>
+      <p class="rv">At the leaf level the QAOA circuit performs very well. Across hundreds of sub-problems it found the proven optimum almost every time, and never once returned an invalid route on the 50- and 100-node instances.</p>
+      <div class="table-wrap rv">
+        <table class="table">
+          <thead><tr><th>Instance size</th><th class="num">Optimal</th><th class="num">Feasible</th><th class="num">Failed</th><th style="width:38%"></th></tr></thead>
+          <tbody>
+            <tr><td>50 nodes</td><td class="num">98.5%</td><td class="num">1.5%</td><td class="num">0.0%</td><td><div class="bar"><i style="width:98.5%"></i></div></td></tr>
+            <tr><td>100 nodes</td><td class="num">98.1%</td><td class="num">1.9%</td><td class="num">0.0%</td><td><div class="bar"><i style="width:98.1%"></i></div></td></tr>
+            <tr><td>200 nodes</td><td class="num">95.2%</td><td class="num">3.8%</td><td class="num">1.0%</td><td><div class="bar"><i style="width:95.2%"></i></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 class="rv">Against the classical baselines: 100 nodes, 7 vehicles</h3>
+      <p class="rv">Stitching optimal leaves together doesn't make the whole fleet optimal. Here is the full benchmark, reported as is:</p>
+      <div class="table-wrap rv">
+        <table class="table">
+          <thead><tr><th>Algorithm</th><th class="num">Distance</th><th class="num">Gap to best</th><th style="width:34%"></th></tr></thead>
+          <tbody>
+            <tr class="best"><td>Clarke-Wright Savings</td><td class="num">63,461.40</td><td class="num">0.0%</td><td><div class="bar"><i style="width:39.8%"></i></div></td></tr>
+            <tr class="best"><td>OR-Tools (Guided Local Search)</td><td class="num">63,461.40</td><td class="num">0.0%</td><td><div class="bar"><i style="width:39.8%"></i></div></td></tr>
+            <tr class="ours"><td>Recursive QAOA + 2-opt</td><td class="num">81,057.71</td><td class="num">27.7%</td><td><div class="bar"><i style="width:50.9%"></i></div></td></tr>
+            <tr class="ours"><td>Recursive QAOA</td><td class="num">88,903.91</td><td class="num">40.1%</td><td><div class="bar"><i style="width:55.8%"></i></div></td></tr>
+            <tr><td>Nearest-neighbour</td><td class="num">91,602.27</td><td class="num">44.3%</td><td><div class="bar"><i style="width:57.5%"></i></div></td></tr>
+            <tr><td>Sweep</td><td class="num">159,355.07</td><td class="num">151.1%</td><td><div class="bar"><i style="width:100%"></i></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="rv">The hybrid solver beats nearest-neighbour and sweep but trails the savings heuristic by 27.7%. Most of that gap comes from the decomposition boundaries, not the quantum step itself. That points clearly at the next piece of work: smarter partitioning and inter-route repair. Classical 2-opt polishing alone already recovers about 12 points.</p>
+    </div>
+  </section>
+
+  <section class="chapter">
+    <div class="chapter__label"><div class="n">iv</div><span class="t">The product</span></div>
+    <div class="chapter__body">
+      <h2 data-split>Then I built the company <em>around it</em>.</h2>
+      <p class="rv">A solver in a notebook is a result. To make it a product, I wrapped the engine in a dispatch platform and an app for the drivers who actually do the routes.</p>
+      <div class="trinity rv">
+        <div class="card"><div class="big">i</div><span class="eyebrow">Optimisation engine</span><h4>Python · Qiskit</h4><ul><li>QAOA leaf solver with brute-force check</li><li>Tabu Search, Simulated Annealing, Savings, NN</li><li>OR-Tools baseline and benchmarking suite</li></ul></div>
+        <div class="card"><div class="big">ii</div><span class="eyebrow">Dispatch console</span><h4>Laravel 13 · React 19</h4><ul><li>Fleet management and route visualisation</li><li>Live tracking and re-optimisation via Broadcasting</li><li>Weighted fairness metric to balance driver workload</li><li>Sanctum API, roles, audit logs</li></ul></div>
+        <div class="card"><div class="big">iii</div><span class="eyebrow">Driver app</span><h4>Flutter · Riverpod</h4><ul><li>Background GPS tracking and sync</li><li>Offline-first local persistence</li><li>Proof-of-delivery capture</li><li>Dio client with automatic token refresh and retry</li></ul></div>
+      </div>
+      <p class="pull rv">The fairness metric was the product insight: the shortest plan isn't always one your drivers will accept.</p>
+    </div>
+  </section>
+</div>
+
+<a class="next wrap" href="sahl.html" data-cursor="view" data-cursor-label="Next">
+  <span class="eyebrow">Next · № II</span>
+  <span class="next__title">Sahl <em>سهل</em> <span class="next__arr">→</span></span>
+</a>
+</main>
+
+<footer class="foot mono"><span>© <span data-year>2026</span> Abdulrahman Al-Essa</span><a href="../index.html#work">All works</a><a href="../index.html#contact">Contact</a></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+/* ---------- VRP lab: capacitated NN, Sweep, Clarke-Wright, 2-opt ---------- */
+(function () {
+  var lab = document.getElementById("lab");
+  if (!lab) return;
+  var cvs = lab.querySelector("canvas"), ctx = cvs.getContext("2d");
+  var out = function (k, v) { lab.querySelector('[data-o="' + k + '"]').textContent = v; };
+  var state = { algo: "nn", opt: false, seed: 5, best: Infinity };
+  var inst;
+
+  function mk(seed) {
+    var R = window.__art.rng(seed), n = 48, pts = [{ x: .5, y: .5, q: 0 }];
+    for (var i = 0; i < n; i++) {
+      var cl = Math.floor(R() * 4), cx = [.22, .78, .3, .72][cl], cy = [.28, .3, .75, .72][cl];
+      var p = R() < .55 ? { x: cx + (R() - .5) * .3, y: cy + (R() - .5) * .3 } : { x: .06 + R() * .88, y: .08 + R() * .84 };
+      p.q = 1 + Math.floor(R() * 9);
+      pts.push(p);
+    }
+    return { pts: pts, Q: 40 };
+  }
+  function d(a, b) { var p = inst.pts[a], q = inst.pts[b]; return Math.hypot((p.x - q.x) * 1.6, p.y - q.y) * 1000; }
+  function routeLen(r) { var s = 0, prev = 0; r.forEach(function (c) { s += d(prev, c); prev = c; }); return s + d(prev, 0); }
+  function load(r) { return r.reduce(function (s, c) { return s + inst.pts[c].q; }, 0); }
+
+  function nn() {
+    var left = inst.pts.map(function (_, i) { return i; }).slice(1), routes = [];
+    while (left.length) {
+      var r = [], cur = 0, cap = inst.Q;
+      while (true) {
+        var bi = -1, bd = Infinity;
+        for (var i = 0; i < left.length; i++) { var c = left[i]; if (inst.pts[c].q <= cap && d(cur, c) < bd) { bd = d(cur, c); bi = i; } }
+        if (bi < 0) break;
+        cur = left.splice(bi, 1)[0]; cap -= inst.pts[cur].q; r.push(cur);
+      }
+      routes.push(r);
+    }
+    return routes;
+  }
+  function sweep() {
+    var ids = inst.pts.map(function (_, i) { return i; }).slice(1);
+    ids.sort(function (a, b) {
+      var A = Math.atan2(inst.pts[a].y - .5, inst.pts[a].x - .5), B = Math.atan2(inst.pts[b].y - .5, inst.pts[b].x - .5);
+      return A - B;
+    });
+    var routes = [], r = [], cap = inst.Q;
+    ids.forEach(function (c) { if (inst.pts[c].q > cap) { routes.push(r); r = []; cap = inst.Q; } r.push(c); cap -= inst.pts[c].q; });
+    if (r.length) routes.push(r);
+    return routes;
+  }
+  function cw() {
+    var n = inst.pts.length, routeOf = [], routes = {};
+    for (var i = 1; i < n; i++) { routes[i] = [i]; routeOf[i] = i; }
+    var sv = [];
+    for (var a = 1; a < n; a++) for (var b = a + 1; b < n; b++) sv.push([d(0, a) + d(0, b) - d(a, b), a, b]);
+    sv.sort(function (x, y) { return y[0] - x[0]; });
+    sv.forEach(function (s) {
+      var a = s[1], b = s[2], ra = routeOf[a], rb = routeOf[b];
+      if (ra === rb) return;
+      var A = routes[ra], B = routes[rb];
+      if (load(A) + load(B) > inst.Q) return;
+      var merged = null;
+      if (A[A.length - 1] === a && B[0] === b) merged = A.concat(B);
+      else if (B[B.length - 1] === b && A[0] === a) merged = B.concat(A);
+      else if (A[0] === a && B[0] === b) merged = A.slice().reverse().concat(B);
+      else if (A[A.length - 1] === a && B[B.length - 1] === b) merged = A.concat(B.slice().reverse());
+      if (!merged) return;
+      delete routes[rb];
+      routes[ra] = merged;
+      merged.forEach(function (c) { routeOf[c] = ra; });
+    });
+    return Object.keys(routes).map(function (k) { return routes[k]; });
+  }
+  function twoOpt(r) {
+    var best = r.slice(), improved = true;
+    while (improved) {
+      improved = false;
+      for (var i = 0; i < best.length - 1; i++) for (var k = i + 1; k < best.length; k++) {
+        var cand = best.slice(0, i).concat(best.slice(i, k + 1).reverse(), best.slice(k + 1));
+        if (routeLen(cand) + 1e-9 < routeLen(best)) { best = cand; improved = true; }
+      }
+    }
+    return best;
+  }
+
+  var palette = function () {
+    var cs = getComputedStyle(document.documentElement);
+    return ["--gold-2", "--blood-2", "--ink", "--gold", "--ink-soft", "--gold-3"].map(function (v) { return cs.getPropertyValue(v).trim(); });
+  };
+  var anim = 0, raf;
+  function draw(routes, p) {
+    var dpr = Math.min(devicePixelRatio || 1, 2), W = cvs.clientWidth, H = cvs.clientHeight;
+    if (cvs.width !== W * dpr) { cvs.width = W * dpr; cvs.height = H * dpr; }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    var cs = getComputedStyle(document.documentElement), cols = palette();
+    var X = function (i) { return 24 + inst.pts[i].x * (W - 48); }, Y = function (i) { return 20 + inst.pts[i].y * (H - 40); };
+    ctx.strokeStyle = cs.getPropertyValue("--line").trim(); ctx.lineWidth = 1;
+    for (var gx = 0; gx < W; gx += 32) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke(); }
+    for (var gy = 0; gy < H; gy += 32) { ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke(); }
+    routes.forEach(function (r, k) {
+      var seq = [0].concat(r, [0]), segs = seq.length - 1, upto = p * segs;
+      ctx.strokeStyle = cols[k % cols.length]; ctx.lineWidth = 1.8; ctx.lineJoin = "round"; ctx.lineCap = "round";
+      ctx.beginPath(); ctx.moveTo(X(0), Y(0));
+      for (var s = 0; s < segs; s++) {
+        if (s + 1 <= upto) ctx.lineTo(X(seq[s + 1]), Y(seq[s + 1]));
+        else { var f = upto - s; if (f > 0) ctx.lineTo(X(seq[s]) + (X(seq[s + 1]) - X(seq[s])) * f, Y(seq[s]) + (Y(seq[s + 1]) - Y(seq[s])) * f); break; }
+      }
+      ctx.stroke();
+    });
+    ctx.fillStyle = cs.getPropertyValue("--ink").trim();
+    for (var i = 1; i < inst.pts.length; i++) { ctx.beginPath(); ctx.arc(X(i), Y(i), 2 + inst.pts[i].q * .28, 0, 7); ctx.fill(); }
+    ctx.save(); ctx.translate(X(0), Y(0)); ctx.rotate(Math.PI / 4);
+    ctx.fillStyle = cs.getPropertyValue("--gold-2").trim(); ctx.fillRect(-7, -7, 14, 14); ctx.restore();
+  }
+  var current = [];
+  function solve() {
+    var routes = state.algo === "nn" ? nn() : state.algo === "sweep" ? sweep() : cw();
+    if (state.opt) routes = routes.map(twoOpt);
+    current = routes;
+    var total = routes.reduce(function (s, r) { return s + routeLen(r); }, 0);
+    state.best = Math.min(state.best, total);
+    out("n", inst.pts.length - 1); out("k", routes.length); out("q", inst.Q);
+    out("d", Math.round(total).toLocaleString());
+    out("g", total - state.best < .5 ? "best ★" : "+" + ((total / state.best - 1) * 100).toFixed(1) + "%");
+    cancelAnimationFrame(raf);
+    var t0 = performance.now();
+    (function step(t) { var p = Math.min(1, (t - t0) / 1400); draw(routes, 1 - Math.pow(1 - p, 3)); if (p < 1) raf = requestAnimationFrame(step); })(t0);
+  }
+  lab.querySelectorAll("[data-algo]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      lab.querySelectorAll("[data-algo]").forEach(function (x) { x.classList.remove("on"); });
+      b.classList.add("on"); state.algo = b.getAttribute("data-algo"); solve();
+    });
+  });
+  lab.querySelector("[data-opt]").addEventListener("click", function (e) { state.opt = !state.opt; e.currentTarget.classList.toggle("on", state.opt); solve(); });
+  lab.querySelector("[data-new]").addEventListener("click", function () { state.seed++; state.best = Infinity; inst = mk(state.seed); solve(); });
+  new MutationObserver(function () { draw(current, 1); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  window.addEventListener("resize", function () { draw(current, 1); });
+  inst = mk(state.seed);
+  var started = false;
+  new IntersectionObserver(function (es) { if (es[0].isIntersecting && !started) { started = true; solve(); } }, { threshold: .3 }).observe(cvs);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="js">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CatActro: Abdulrahman Al-Essa</title>
+<meta name="description" content="CatActro is a native macOS PDF editor built with SwiftUI, PDFKit and Liquid Glass on macOS 26." />
+<meta name="theme-color" content="#0b0a08" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%230b0a08'/><text x='50%' y='58%' text-anchor='middle' dominant-baseline='middle' font-family='Georgia' font-style='italic' font-size='40' fill='%23e8cd92'>Æ</text></svg>" />
+<script>try{var t=localStorage.getItem('ae-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/main.css" />
+<style>
+  .banner-glass .mac{width:min(76%,1100px)}
+  .banner-glass .glass-pal{padding:8px;gap:6px}
+  .banner-glass .glass-pal b{width:38px;height:38px;font-size:12px;cursor:pointer}
+  .tool-name{position:absolute;left:50%;bottom:calc(6% + 66px);transform:translateX(-50%);font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff;padding:6px 12px;border-radius:999px;background:rgba(0,0,0,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);white-space:nowrap}
+  .keys{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:32px}
+  .key{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--line-2);transition:border-color .3s,background .3s}
+  .key kbd{width:34px;height:34px;display:grid;place-items:center;border-radius:7px;border:1px solid var(--line-2);border-bottom-width:3px;font-family:var(--f-mono);font-size:13px;color:var(--gold-2);flex:0 0 auto}
+  .key span{font-size:14px;color:var(--ink-soft)}
+  .key.on{border-color:var(--gold);background:var(--bg-2)}
+  .key.on kbd{background:var(--gold);color:var(--bg)}
+  @media (max-width:700px){.banner-glass .mac{width:94%}.banner-glass .glass-pal{gap:2px;padding:4px}.banner-glass .glass-pal b{width:22px;height:22px;font-size:9px}.tool-name{bottom:calc(6% + 40px)}}
+  .no-electron{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+  .no-electron .chip s{color:var(--ink-faint)}
+</style>
+</head>
+<body>
+<div class="curtain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+<canvas id="dust" aria-hidden="true"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <a href="../index.html" class="brand" aria-label="Home"><span class="brand__mark">Æ</span><span class="brand__name">Al-Essa · Works</span></a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="../index.html#work" class="keep">All works</a>
+    <a href="vectora.html">Next: Vectora</a>
+    <button class="theme-toggle" aria-label="Toggle light and dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor"/></svg></button>
+  </nav>
+</header>
+
+<main>
+<section class="case-hero">
+  <div class="case-hero__crumb mono"><a href="../index.html#work">← Opera</a><span>№ VII of VII</span></div>
+  <div class="wrap">
+    <div class="case-hero__opus eyebrow"><i></i>Native macOS · SwiftUI</div>
+    <h1 class="case-hero__title"><span data-hero-split>Cat</span><em data-hero-split>Actro</em></h1>
+    <div class="case-hero__sub">
+      <p class="case-hero__lede">A PDF editor that is actually a <em>Mac app</em>, made of glass. No Electron, no web views, and undo works for every single edit.</p>
+      <dl class="facts">
+        <div class="fact"><dt>Role</dt><dd>Designer & engineer</dd></div>
+        <div class="fact"><dt>Year</dt><dd>2026</dd></div>
+        <div class="fact"><dt>Stack</dt><dd>Swift · SwiftUI · PDFKit · AppKit</dd></div>
+        <div class="fact"><dt>Target</dt><dd>macOS 26 Tahoe · Xcode 26</dd></div>
+        <div class="fact"><dt>Design</dt><dd>Liquid Glass</dd></div>
+        <div class="fact"><dt>Source</dt><dd>Private repository</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<div class="case-banner"><div class="art-glass banner-glass" id="glassStage">
+  <div class="mac">
+    <div class="mac__bar"><i></i><i></i><i></i><span>Thesis-final-v3.pdf: Edited</span></div>
+    <div class="mac__body">
+      <div class="mac__side"><i></i><i></i><i></i><i></i></div>
+      <div class="mac__page">
+        <span class="h"></span><span></span><span class="hl"></span><span></span><span style="width:80%"></span><span class="ul" style="width:70%"></span><span></span>
+        <div class="ink"><svg viewBox="0 0 200 28" preserveAspectRatio="none"><path d="M4 20 C30 2, 50 26, 80 12 S130 4, 160 18 190 10, 196 8" fill="none" stroke="#6b8bff" stroke-width="2.2" stroke-linecap="round"/></svg></div>
+        <span style="width:90%"></span><span></span><span style="width:60%"></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="tool-name" id="toolName">Highlight · H</div>
+    <div class="glass-pal" id="pal"><b data-k="V">V</b><b data-k="H" class="on">H</b><b data-k="U">U</b><b data-k="S">S</b><b data-k="D">D</b><b data-k="T">T</b><b data-k="N">N</b><b data-k="R">R</b><b data-k="O">O</b><b data-k="L">L</b><b data-k="A">A</b><b data-k="E">E</b></div>
+  </div>
+</div></div>
+
+<div class="wrap">
+  <section class="chapter">
+    <div class="chapter__label"><div class="n">i</div><span class="t">The premise</span></div>
+    <div class="chapter__body">
+      <h2 data-split>Preview is too little. Acrobat is too much. <em>So I wrote my own.</em></h2>
+      <p class="rv">CatActro is a document-based Mac app in the full sense. It has tabs, autosave, version history, iCloud Drive, Share and Print, and every edit can be undone. It saves back into a standard PDF that Preview and Acrobat can still open. It's built for macOS 26 and uses Apple's new <strong>Liquid Glass</strong> design throughout.</p>
+      <div class="no-electron rv">
+        <span class="chip"><i></i><s>Electron</s></span><span class="chip"><i></i><s>Web views</s></span><span class="chip"><i></i>SwiftUI</span><span class="chip"><i></i>PDFKit</span><span class="chip"><i></i>AppKit bridge</span><span class="chip"><i></i>DocumentGroup</span>
+      </div>
+      <h3 class="rv">Press a key</h3>
+      <p class="rv">The markup tools sit in a floating glass palette, and every tool has a single-key shortcut. Try them on this page. <span class="kbd">Esc</span> returns to Select.</p>
+      <div class="keys rv" id="keys"></div>
+    </div>
+  </section>
+
+  <section class="chapter">
+    <div class="chapter__label"><div class="n">ii</div><span class="t">The hard parts</span></div>
+    <div class="chapter__body">
+      <h2 data-split>Three decisions that make it <em>feel native</em>.</h2>
+      <div class="grid-3" style="margin-top:32px">
+        <div class="card rv"><span class="eyebrow">01 · State</span><h4>Dirty tracking through undo</h4><p>SwiftUI marks a <code>ReferenceFileDocument</code> as edited when an undo action is registered. Every page and annotation change goes through <code>registerUndo</code>, so undo and "unsaved changes" can never disagree.</p></div>
+        <div class="card rv"><span class="eyebrow">02 · Input</span><h4>Overlay, don't hijack</h4><p>An annotation overlay takes a mouse event only when it needs it. Text selection, links and form fields keep PDFKit's own behaviour, so they work exactly as they do in Preview.</p></div>
+        <div class="card rv"><span class="eyebrow">03 · Glass</span><h4>Edge-to-edge under the toolbar</h4><p>The palette uses <code>GlassEffectContainer</code> with <code>.glassEffect(.regular.interactive())</code>. The PDF scrolls under the toolbar, with insets taken from the window's <code>contentLayoutRect</code>.</p></div>
+      </div>
+      <h3 class="rv">Everything else it does</h3>
+      <div class="grid-2" style="margin-top:20px">
+        <div class="card rv"><span class="eyebrow">Pages</span><ul><li>Glass sidebar with thumbnails, drag to reorder</li><li>Drop PDFs in from Finder to merge them</li><li>Rotate, insert, duplicate, delete, export a selection</li></ul></div>
+        <div class="card rv"><span class="eyebrow">Document</span><ul><li>Search with a glass match navigator</li><li>Native form filling, unlock password-protected files</li><li>Inspector for comments, colours and metadata</li></ul></div>
+      </div>
+      <h3 class="rv">Architecture</h3>
+<pre class="tree rv"><b>CatActro/</b>
+├── <b>App/</b>        CatActroApp <i>(DocumentGroup)</i>, menu commands
+├── <b>Document/</b>   PDFFileDocument <i>— ReferenceFileDocument wrapping PDFDocument</i>
+├── <b>Editor/</b>     EditorState <i>— every mutation, every one undoable</i>
+├── <b>Canvas/</b>     CanvasPDFView · AnnotationOverlayView · PDFCanvas
+└── <b>Views/</b>      EditorView · ToolPalette · PageSidebar · InspectorView</pre>
+      <p class="pull rv">Next on the roadmap: reusable signatures, OCR with Vision, and real redaction that removes the content instead of drawing a black box over it.</p>
+    </div>
+  </section>
+</div>
+
+<a class="next wrap" href="vectora.html" data-cursor="view" data-cursor-label="Again">
+  <span class="eyebrow">Back to the beginning · № I</span>
+  <span class="next__title">Vec<em>tora</em> <span class="next__arr">→</span></span>
+</a>
+</main>
+
+<footer class="foot mono"><span>© <span data-year>2026</span> Abdulrahman Al-Essa</span><a href="../index.html#work">All works</a><a href="../index.html#contact">Contact</a></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+(function () {
+  var TOOLS = { V: "Select", H: "Highlight", U: "Underline", S: "Strikethrough", D: "Draw", T: "Text box", N: "Note", R: "Rectangle", O: "Oval", L: "Line", A: "Arrow", E: "Eraser" };
+  var pal = document.getElementById("pal"), name = document.getElementById("toolName"), keys = document.getElementById("keys");
+  keys.innerHTML = Object.keys(TOOLS).map(function (k) { return '<div class="key" data-k="' + k + '"><kbd>' + k + "</kbd><span>" + TOOLS[k] + "</span></div>"; }).join("");
+  function pick(k) {
+    if (!TOOLS[k]) return;
+    pal.__manual = Date.now();
+    pal.querySelectorAll("b").forEach(function (b) { b.classList.toggle("on", b.dataset.k === k); });
+    keys.querySelectorAll(".key").forEach(function (b) { b.classList.toggle("on", b.dataset.k === k); });
+    name.textContent = TOOLS[k] + " · " + k;
+  }
+  /* keep label in sync with the auto-cycling palette */
+  new MutationObserver(function () {
+    var on = pal.querySelector("b.on");
+    if (on) { name.textContent = TOOLS[on.dataset.k] + " · " + on.dataset.k; keys.querySelectorAll(".key").forEach(function (b) { b.classList.toggle("on", b.dataset.k === on.dataset.k); }); }
+  }).observe(pal, { subtree: true, attributes: true, attributeFilter: ["class"] });
+  document.addEventListener("keydown", function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey || /input|textarea/i.test(e.target.tagName)) return;
+    if (e.key === "Escape") return pick("V");
+    pick(e.key.toUpperCase());
+  });
+  pal.addEventListener("click", function (e) { var b = e.target.closest("b"); if (b) pick(b.dataset.k); });
+  keys.addEventListener("click", function (e) { var b = e.target.closest(".key"); if (b) pick(b.dataset.k); });
+})();
+</script>
+</body>
+</html>

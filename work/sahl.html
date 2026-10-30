@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="js">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sahl: Abdulrahman Al-Essa</title>
+<meta name="description" content="Sahl is a bilingual government e-services portal on Azure: Entra ID, managed identities, Key Vault, Bicep and OIDC deploys." />
+<meta name="theme-color" content="#0b0a08" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%230b0a08'/><text x='50%' y='58%' text-anchor='middle' dominant-baseline='middle' font-family='Georgia' font-style='italic' font-size='40' fill='%23e8cd92'>Æ</text></svg>" />
+<script>try{var t=localStorage.getItem('ae-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/main.css" />
+<style>
+  .sahl-red{color:#ec3013}
+  .principles{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--line-2);margin-top:36px}
+  .principle{padding:26px 24px 26px 0;border-bottom:1px solid var(--line)}
+  .principle:nth-child(even){padding-left:24px;padding-right:0;border-left:1px solid var(--line)}
+  .principle h4{font-family:var(--f-display);font-weight:400;font-size:26px;line-height:1.1;margin-bottom:8px}
+  .principle h4 i{font-family:var(--f-mono);font-style:normal;font-size:10px;letter-spacing:.16em;color:var(--gold);display:block;margin-bottom:10px}
+  .principle p{font-size:15px}
+  @media (max-width:820px){.principles{grid-template-columns:1fr}.principle:nth-child(even){padding-left:0;border-left:0}}
+  .banner-sahl{background:#ec3013;display:grid;place-items:center;overflow:hidden}
+  .banner-sahl img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top left}
+  .ar-word{font-family:'Reem Kufi',var(--f-display);font-style:normal}
+</style>
+</head>
+<body>
+<div class="curtain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+<canvas id="dust" aria-hidden="true"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <a href="../index.html" class="brand" aria-label="Home"><span class="brand__mark">Æ</span><span class="brand__name">Al-Essa · Works</span></a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="../index.html#work" class="keep">All works</a>
+    <a href="cpu.html">Next: RISC-V</a>
+    <button class="theme-toggle" aria-label="Toggle light and dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor"/></svg></button>
+  </nav>
+</header>
+
+<main>
+<section class="case-hero">
+  <div class="case-hero__crumb mono"><a href="../index.html#work">← Opera</a><span>№ II of VII</span></div>
+  <div class="wrap">
+    <div class="case-hero__opus eyebrow"><i></i>Cloud architecture · Azure</div>
+    <h1 class="case-hero__title"><span data-hero-split>Sahl</span> <em class="ar-word" data-hero-split>سهل</em></h1>
+    <div class="case-hero__sub">
+      <p class="case-hero__lede">A government portal for a country that doesn't exist, built exactly as a real one should be. The app holds <em>no passwords</em> and CI holds <em>no secrets</em>, and anyone can verify the certificates it issues.</p>
+      <dl class="facts">
+        <div class="fact"><dt>Role</dt><dd>Architect & sole engineer</dd></div>
+        <div class="fact"><dt>Year</dt><dd>2026</dd></div>
+        <div class="fact"><dt>Stack</dt><dd>Laravel 13 · React 19 · Postgres 17</dd></div>
+        <div class="fact"><dt>Cloud</dt><dd>Azure · Entra · Bicep</dd></div>
+        <div class="fact"><dt>Quality</dt><dd>139 Pest tests · OpenAPI</dd></div>
+        <div class="fact"><dt>Links</dt><dd><a href="https://github.com/abuel3ees/sahl" target="_blank" rel="noopener">Source ↗</a> · <a href="https://app-sahl-dev-sdc-vmi3r3.azurewebsites.net" target="_blank" rel="noopener">Live demo ↗</a></dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<div class="case-banner banner-sahl"><img src="../assets/img/sahl/hero-en.png" alt="Sahl landing page: Government, made simple." data-parallax="6" /></div>
+
+<div class="wrap">
+  <section class="chapter">
+    <div class="chapter__label"><div class="n">i</div><span class="t">The brief</span></div>
+    <div class="chapter__body">
+      <h2 data-split>One ministry. One service. <em>Done properly.</em></h2>
+      <p class="rv">Sahl (<span class="ar-word">سهل</span>, "easy, effortless") is a GCC-style e-services portal for the fictional <strong>State of Al-Wahah</strong>. I deliberately kept V1 small: the Ministry of Interior issues a Good Conduct Certificate, and the whole path is built end to end, from the citizen's request, through staff review and issuing, to a public verification page.</p>
+      <p class="rv">I treated it as a system-architecture project, not a CRUD app. Every manual Azure and Entra step is written up in a setup guide, the whole environment is declared in <code>infra/main.bicep</code>, and a dated work journal records each decision as it was made.</p>
+      <figure class="figure figure--wide rv">
+        <div class="figure__frame figure__frame--light"><img src="../assets/img/sahl/flow.svg" alt="Flow: 01 Submit, 02 Review, 03 Issue, 04 Verify" loading="lazy" /></div>
+        <figcaption><b>Fig. 1</b>The four-step life of a request. Citizens and staff sign in through different identity providers.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="chapter">
+    <div class="chapter__label"><div class="n">ii</div><span class="t">The screens</span></div>
+    <div class="chapter__body">
+      <h2 data-split>Arabic <em>first</em>, right to left, one red.</h2>
+      <p class="rv">Every screen is bilingual, with Arabic as the default. The layout mirrors using only logical CSS properties (<code>ms-</code>, <code>pe-</code>, <code>start-</code>), never left and right. The design system is strict modernism: Archivo, IBM Plex Sans Arabic and Reem Kufi; a single red, <span class="sahl-red">#ec3013</span>; 2px rules; and no rounded corners.</p>
+      <div class="gallery">
+        <figure class="figure g-7 rv"><div class="figure__frame"><img src="../assets/img/sahl/hero-ar.png" alt="Landing page in Arabic, right to left" loading="lazy" /></div><figcaption><b>RTL</b>The same landing page in its default language.</figcaption></figure>
+        <figure class="figure g-5 rv"><div class="figure__frame"><img src="../assets/img/sahl/login.png" alt="Sign-in with citizen and staff tabs" loading="lazy" /></div><figcaption><b>Two doors</b>Sahl ID for citizens, workforce Entra ID for staff.</figcaption></figure>
+        <figure class="figure g-6 rv"><div class="figure__frame"><img src="../assets/img/sahl/staff-queue.png" alt="Review queue with overdue requests flagged" loading="lazy" /></div><figcaption><b>Queue</b>Requests past the 3-working-day SLA rise to the top.</figcaption></figure>
+        <figure class="figure g-6 rv"><div class="figure__frame"><img src="../assets/img/sahl/staff-review.png" alt="Request detail with approve and reject actions" loading="lazy" /></div><figcaption><b>Decision</b>Approving the request issues the certificate.</figcaption></figure>
+        <figure class="figure g-4 rv"><div class="figure__frame"><img src="../assets/img/sahl/certificate.png" alt="Bilingual Good Conduct Certificate PDF with QR code" loading="lazy" /></div><figcaption><b>PDF</b>mPDF with proper Arabic shaping, rendered from a snapshot.</figcaption></figure>
+        <figure class="figure g-8 rv"><div class="figure__frame"><img src="../assets/img/sahl/verify.png" alt="Public verification page reading Genuine and valid" loading="lazy" /></div><figcaption><b>Verify</b>Scan the QR code to check a certificate. Only the last four digits of the National ID are shown.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter">
+    <div class="chapter__label"><div class="n">iii</div><span class="t">The architecture</span></div>
+    <div class="chapter__body">
+      <h2 data-split>Security is in the <em>infrastructure</em>, not added at the end.</h2>
+      <figure class="figure figure--wide rv">
+        <div class="figure__frame figure__frame--light"><img src="../assets/img/sahl/architecture.svg" alt="Architecture: Entra External ID and Entra ID; App Service with managed identity, Key Vault, PostgreSQL, Log Analytics" loading="lazy" /></div>
+        <figcaption><b>Fig. 2</b>App Service reads its secrets from Key Vault and signs in to Postgres using its own managed identity.</figcaption>
+      </figure>
+      <div class="principles">
+        <div class="principle rv"><h4><i>01 · CI</i>No secrets in CI</h4><p>GitHub Actions signs in to Azure with OIDC. The deploy identity trusts only the <code>main</code> branch and can deploy only to this one web app.</p></div>
+        <div class="principle rv"><h4><i>02 · DATA</i>No database password</h4><p>The app signs in to Postgres as its own managed identity. A custom <code>EntraPostgresConnector</code> fetches a short-lived Entra token for each connection.</p></div>
+        <div class="principle rv"><h4><i>03 · ROLES</i>Least privilege</h4><p>Tables belong to a group role, so the app, the admin and the owner can run migrations without needing server-admin rights.</p></div>
+        <div class="principle rv"><h4><i>04 · VAULT</i>Key Vault references</h4><p>The app key and Entra client secrets are resolved through Key Vault with Azure RBAC, not access policies.</p></div>
+        <div class="principle rv"><h4><i>05 · SHIP</i>Code and schema together</h4><p>Every deploy restarts the app and runs <code>migrate --force --isolated</code> at startup, so the code and the schema go live together.</p></div>
+        <div class="principle rv"><h4><i>06 · PRIVACY</i>404, not 403</h4><p>Other people's records return 404, so you can't even tell they exist. Request reasons are never published, and IDs are masked on public pages.</p></div>
+      </div>
+      <p class="pull rv">The website and the versioned JSON API share the same actions and rules, and the OpenAPI file is generated from the code.</p>
+      <figure class="figure rv"><div class="figure__frame"><img src="../assets/img/sahl/developers.png" alt="Developer API reference page" loading="lazy" /></div><figcaption><b>API</b><code>/api/v1</code> with Sanctum tokens, documented in the app itself.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="chapter">
+    <div class="chapter__label"><div class="n">iv</div><span class="t">What's next</span></div>
+    <div class="chapter__body">
+      <h2 data-split>A roadmap with <em>real</em> cloud services on it.</h2>
+      <div class="steps">
+        <div class="step rv"><div class="n">✓</div><h4>V1 live</h4><p class="muted">MOI · Good Conduct, App Service, Postgres, Key Vault, OIDC, monitoring from 3 regions.</p></div>
+        <div class="step rv"><div class="n">◐</div><h4>Tracing</h4><p class="muted">An OpenTelemetry sidecar sending traces to Application Insights.</p></div>
+        <div class="step rv"><div class="n">V2</div><h4>National ID</h4><p class="muted">A mock digital ID federated into Entra External ID, so a National ID is verified instead of typed in.</p></div>
+        <div class="step rv"><div class="n">∞</div><h4>Scale</h4><p class="muted">More ministries, payments, Key Vault signing, API Management, Front Door, Service Bus.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<a class="next wrap" href="cpu.html" data-cursor="view" data-cursor-label="Next">
+  <span class="eyebrow">Next · № III</span>
+  <span class="next__title">RISC-V <em>Core</em> <span class="next__arr">→</span></span>
+</a>
+</main>
+
+<footer class="foot mono"><span>© <span data-year>2026</span> Abdulrahman Al-Essa</span><a href="../index.html#work">All works</a><a href="../index.html#contact">Contact</a></footer>
+
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400..700&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

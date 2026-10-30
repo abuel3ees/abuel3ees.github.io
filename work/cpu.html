@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="js">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RISC-V Core: Abdulrahman Al-Essa</title>
+<meta name="description" content="A 5-stage pipelined RISC-V processor in Verilog, with hazard detection, forwarding, a branch unit and trap handling." />
+<meta name="theme-color" content="#0b0a08" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%230b0a08'/><text x='50%' y='58%' text-anchor='middle' dominant-baseline='middle' font-family='Georgia' font-style='italic' font-size='40' fill='%23e8cd92'>Æ</text></svg>" />
+<script>try{var t=localStorage.getItem('ae-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/main.css" />
+<style>
+  .pipe-banner{background:var(--bg-2);display:grid;place-items:center}
+  .pipe-banner .art-pipe{position:absolute;inset:0}
+  .ptable{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:3px;font-family:var(--f-mono);font-size:11px;min-width:720px}
+  .ptable th.ins{width:170px}
+  .ptable th{font-weight:400;color:var(--ink-faint);padding:6px 4px;text-align:center;letter-spacing:.08em}
+  .ptable th.ins{text-align:left;min-width:150px;color:var(--ink-soft)}
+  .ptable th.now{color:var(--gold-2)}
+  .ptable td{height:30px;text-align:center;border-radius:3px;letter-spacing:.06em;transition:background .3s,color .3s,opacity .3s}
+  .ptable td.ins{text-align:left;color:var(--ink);padding-left:4px;white-space:nowrap}
+  .ptable td.ins b{color:var(--gold);font-weight:400;margin-right:6px}
+  .ptable td.s{color:var(--bg);font-weight:500}
+  .ptable td.hide{opacity:0}
+  .ptable td.IF{background:#6f6656}.ptable td.ID{background:#9a8257}.ptable td.EX{background:var(--gold)}.ptable td.MEM{background:var(--gold-2)}.ptable td.WB{background:#f1e2bc}
+  .ptable td.stall{background:repeating-linear-gradient(135deg,var(--blood) 0 6px,var(--blood-2) 6px 12px);color:#fff}
+  .ptable td.col-now{box-shadow:0 0 0 1px var(--gold-2) inset}
+  .lab__pad{padding:14px 18px;overflow-x:auto}
+  .events{min-height:48px;padding:12px 18px;border-top:1px solid var(--line);font-family:var(--f-mono);font-size:11.5px;color:var(--ink-soft);letter-spacing:.04em}
+  .events b{color:var(--blood-2);font-weight:400}
+  .events i{color:var(--gold-2);font-style:normal}
+  .units{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
+  @media (max-width:820px){.units{grid-template-columns:1fr}}
+  .datapath img{filter:none}
+  :root:not([data-theme="light"]) .datapath .figure__frame{background:#f3efe6}
+</style>
+</head>
+<body>
+<div class="curtain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+<canvas id="dust" aria-hidden="true"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <a href="../index.html" class="brand" aria-label="Home"><span class="brand__mark">Æ</span><span class="brand__name">Al-Essa · Works</span></a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="../index.html#work" class="keep">All works</a>
+    <a href="jads.html">Next: JADS</a>
+    <button class="theme-toggle" aria-label="Toggle light and dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor"/></svg></button>
+  </nav>
+</header>
+
+<main>
+<section class="case-hero">
+  <div class="case-hero__crumb mono"><a href="../index.html#work">← Opera</a><span>№ III of VII</span></div>
+  <div class="wrap">
+    <div class="case-hero__opus eyebrow"><i></i>Computer architecture · Verilog</div>
+    <h1 class="case-hero__title"><span data-hero-split>RISC-V</span> <em data-hero-split>Core</em></h1>
+    <div class="case-hero__sub">
+      <p class="case-hero__lede">Five stages, four pipeline registers, and every hazard handled by hand: a processor written <em>one wire at a time</em>.</p>
+      <dl class="facts">
+        <div class="fact"><dt>Role</dt><dd>Designer</dd></div>
+        <div class="fact"><dt>Year</dt><dd>2024</dd></div>
+        <div class="fact"><dt>ISA</dt><dd>RISC-V (RV32I subset)</dd></div>
+        <div class="fact"><dt>Language</dt><dd>Verilog HDL</dd></div>
+        <div class="fact"><dt>Pipeline</dt><dd>IF · ID · EX · MEM · WB</dd></div>
+        <div class="fact"><dt>Code</dt><dd><a href="https://github.com/abuel3ees/cpu" target="_blank" rel="noopener">Source ↗</a></dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<div class="case-banner pipe-banner"><div class="art-pipe" data-art="pipeline"></div></div>
+
+<div class="wrap">
+  <section class="chapter">
+    <div class="chapter__label"><div class="n">i</div><span class="t">The idea</span></div>
+    <div class="chapter__body">
+      <h2 data-split>Run five instructions at once, <em>and keep them in order.</em></h2>
+      <p class="rv">A single-cycle CPU does one instruction per clock, and the clock has to be slow enough for the longest instruction. Pipelining splits the work into five stages, like an aqueduct carrying water in sections, so five instructions are in flight at once and the clock only has to wait for one stage.</p>
+      <p class="rv">The catch is that instructions depend on each other. An <code>add</code> may need a value that a <code>lw</code> three slots ahead hasn't loaded yet. Making a pipeline <strong>correct</strong> means seeing every one of those conflicts coming, and that's what most of this project was about.</p>
+      <figure class="figure datapath rv">
+        <div class="figure__frame"><img src="../assets/img/cpu/datapath.png" alt="Pipelined RISC-V datapath diagram" loading="lazy" /></div>
+        <figcaption><b>Fig. 1</b>The pipelined datapath: four inter-stage registers separating the five stages.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="chapter">
+    <div class="chapter__label"><div class="n">ii</div><span class="t">Hazards, live</span></div>
+    <div class="chapter__body">
+      <h2 data-split>Turn forwarding off and watch the <em>stalls</em> appear.</h2>
+      <p class="rv">This is the program I used to test the hazard logic, laid out cycle by cycle. With forwarding on, results go straight from the EX/MEM and MEM/WB registers back to the ALU, and the only stall left is the unavoidable load-use bubble. With forwarding off, every dependent instruction waits in decode for write-back.</p>
+
+      <div class="lab rv" id="plab">
+        <div class="lab__bar">
+          <span class="eyebrow">Pipeline simulator</span>
+          <div class="lab__ctrls">
+            <button class="lab__btn on" data-fwd>Forwarding: on</button>
+            <button class="lab__btn" data-step>Step ›</button>
+            <button class="lab__btn" data-play>Play</button>
+            <button class="lab__btn" data-reset>Reset</button>
+          </div>
+        </div>
+        <div class="lab__pad"><table class="ptable" aria-label="Pipeline diagram"></table></div>
+        <div class="events" aria-live="polite">Press <i>Play</i> or <i>Step</i> to clock the pipeline.</div>
+        <div class="lab__foot"><span>Cycle <b data-o="c">0</b></span><span>Total cycles <b data-o="t">—</b></span><span>Stall cycles <b data-o="s">—</b></span><span>Effective CPI <b data-o="cpi">—</b></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter">
+    <div class="chapter__label"><div class="n">iii</div><span class="t">The units</span></div>
+    <div class="chapter__body">
+      <h2 data-split>The control units that keep it <em>correct</em>.</h2>
+      <div class="units">
+        <div class="card rv"><span class="eyebrow">Hazard detection</span><h4>Stall & bubble</h4><p>Detects a load whose destination register is needed by the very next instruction. It freezes the PC and IF/ID, and puts a NOP into ID/EX.</p></div>
+        <div class="card rv"><span class="eyebrow">Forwarding unit</span><h4>Bypass paths</h4><p>Compares source registers in EX against the destinations in EX/MEM and MEM/WB, and steers the ALU input muxes to whichever value is newest.</p></div>
+        <div class="card rv"><span class="eyebrow">Branch unit</span><h4>Resolve & flush</h4><p>Evaluates branch conditions, redirects the PC, and flushes the instructions that were fetched down the wrong path.</p></div>
+        <div class="card rv"><span class="eyebrow">Trap logic</span><h4>sepc · scause</h4><p>Supervisor exception registers save the faulting PC and the cause, so the core can trap and return cleanly.</p></div>
+        <div class="card rv"><span class="eyebrow">Control unit</span><h4>Decode</h4><p>Turns opcode and function fields into the control signals that travel down the pipeline with each instruction.</p></div>
+        <div class="card rv"><span class="eyebrow">Immediate gen</span><h4>I · S · B · U · J</h4><p>Sign-extends and reshuffles the immediate bits for every RISC-V instruction format.</p></div>
+      </div>
+      <h3 class="rv">Repository layout</h3>
+<pre class="tree rv"><b>cpu/</b>
+├── <b>Control And Top Module/</b>
+│   ├── CPU                  <i>// top level: wires the stages together</i>
+│   ├── branchunit
+│   ├── forwardingunit
+│   ├── hazarddetectionunit
+│   ├── scause · sepc        <i>// trap state</i>
+├── <b>Stages & Registers/</b>
+│   ├── IF_STAGE  → IF_ID_REG
+│   ├── ID_STAGE  → ID_EXE_REG
+│   ├── EXE_STAGE → EXE_MEM_REG
+│   ├── MEM_STAGE → MEM_WB_REG
+│   └── WB_STAGE
+└── <b>Low Level Modules/</b>
+    ├── alu · control_unit · immediate_gen.v
+    ├── register_file.v · pc_register.v
+    └── instruction memory.v · data_memory.v</pre>
+    </div>
+  </section>
+</div>
+
+<a class="next wrap" href="jads.html" data-cursor="view" data-cursor-label="Next">
+  <span class="eyebrow">Next · № IV</span>
+  <span class="next__title">JADS <span class="next__arr">→</span></span>
+</a>
+</main>
+
+<footer class="foot mono"><span>© <span data-year>2026</span> Abdulrahman Al-Essa</span><a href="../index.html#work">All works</a><a href="../index.html#contact">Contact</a></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+/* ---------- 5-stage pipeline scheduler (in-order, split-cycle register file) ---------- */
+(function () {
+  var lab = document.getElementById("plab");
+  if (!lab) return;
+  var PROG = [
+    { t: "lw   x1, 0(x2)",  d: "x1", s: ["x2"], load: true },
+    { t: "add  x3, x1, x4", d: "x3", s: ["x1", "x4"] },
+    { t: "sub  x5, x3, x6", d: "x5", s: ["x3", "x6"] },
+    { t: "and  x7, x5, x3", d: "x7", s: ["x5", "x3"] },
+    { t: "sw   x7, 8(x2)",  d: null, s: ["x7", "x2"] },
+    { t: "addi x8, x8, 1",  d: "x8", s: ["x8"] },
+    { t: "or   x9, x8, x5", d: "x9", s: ["x8", "x5"] }
+  ];
+  var fwd = true, cycle = 0, timer = null, sched;
+
+  function schedule() {
+    var rows = [], prev = null;
+    PROG.forEach(function (ins, i) {
+      var r = { ins: ins, events: [] };
+      r.ifS = prev ? prev.ifE + 1 : 1;
+      r.ifE = prev ? Math.max(r.ifS, prev.idE) : r.ifS;
+      r.idS = r.ifE + 1;
+      var need = r.idS;
+      for (var j = 0; j < i; j++) {
+        var p = rows[j];
+        if (!p.ins.d || ins.s.indexOf(p.ins.d) < 0) continue;
+        if (fwd) {
+          var exNeed = p.ins.load ? p.mem + 1 : p.ex + 1;
+          if (exNeed - 1 > need) need = exNeed - 1;
+          r.events.push({ src: p, reg: p.ins.d });
+        } else if (p.wb > need) need = p.wb;
+      }
+      r.idE = Math.max(r.idS, need);
+      r.ex = r.idE + 1; r.mem = r.ex + 1; r.wb = r.mem + 1;
+      r.events = r.events.map(function (e) {
+        var from = e.src.wb === r.ex ? "MEM/WB" : e.src.mem === r.ex ? "EX/MEM" : null;
+        return from ? { reg: e.reg, from: from, at: r.ex } : null;
+      }).filter(Boolean);
+      rows.push(r); prev = r;
+    });
+    return rows;
+  }
+  function stageAt(r, c) {
+    if (c >= r.ifS && c <= r.ifE) return c === r.ifS ? "IF" : "stall";
+    if (c >= r.idS && c <= r.idE) return c === r.idS ? "ID" : "stall";
+    if (c === r.ex) return "EX"; if (c === r.mem) return "MEM"; if (c === r.wb) return "WB";
+    return "";
+  }
+  var table = lab.querySelector("table");
+  function render() {
+    var T = sched[sched.length - 1].wb, h = "<thead><tr><th class='ins'>Instruction</th>";
+    for (var c = 1; c <= T; c++) h += "<th class='" + (c === cycle ? "now" : "") + "'>" + c + "</th>";
+    h += "</tr></thead><tbody>";
+    sched.forEach(function (r, i) {
+      h += "<tr><td class='ins'><b>" + (i + 1) + "</b>" + r.ins.t + "</td>";
+      for (var c = 1; c <= T; c++) {
+        var s = stageAt(r, c), cls = s ? "s " + s : "";
+        if (c > cycle) cls += " hide";
+        if (c === cycle) cls += " col-now";
+        h += "<td class='" + cls + "'>" + (s === "stall" ? "··" : s) + "</td>";
+      }
+      h += "</tr>";
+    });
+    table.innerHTML = h + "</tbody>";
+    var stalls = 0;
+    sched.forEach(function (r) { stalls += (r.idE - r.idS); });
+    lab.querySelector('[data-o="c"]').textContent = cycle;
+    lab.querySelector('[data-o="t"]').textContent = T;
+    lab.querySelector('[data-o="s"]').textContent = stalls;
+    lab.querySelector('[data-o="cpi"]').textContent = ((T - 4) / PROG.length).toFixed(2);
+    var ev = [];
+    sched.forEach(function (r, i) {
+      if (stageAt(r, cycle) === "stall" && cycle >= r.idS) ev.push("<b>stall</b> " + r.ins.t.split(" ")[0] + " (#" + (i + 1) + ") waits in ID");
+      r.events.forEach(function (e) { if (e.at === cycle) ev.push("<i>forward</i> " + e.reg + " " + e.from + " → EX for #" + (i + 1)); });
+    });
+    var box = lab.querySelector(".events");
+    if (cycle === 0) box.innerHTML = "Press <i>Play</i> or <i>Step</i> to clock the pipeline.";
+    else box.innerHTML = ev.length ? ev.join(" &nbsp;·&nbsp; ") : "Cycle " + cycle + ": no hazards. Every stage is busy.";
+  }
+  function stop() { clearInterval(timer); timer = null; lab.querySelector("[data-play]").textContent = "Play"; lab.querySelector("[data-play]").classList.remove("on"); }
+  function step() {
+    var T = sched[sched.length - 1].wb;
+    if (cycle >= T) { stop(); return; }
+    cycle++; render();
+  }
+  lab.querySelector("[data-step]").addEventListener("click", function () { stop(); step(); });
+  lab.querySelector("[data-play]").addEventListener("click", function (e) {
+    if (timer) { stop(); return; }
+    if (cycle >= sched[sched.length - 1].wb) cycle = 0;
+    e.currentTarget.textContent = "Pause"; e.currentTarget.classList.add("on");
+    timer = setInterval(step, 650); step();
+  });
+  lab.querySelector("[data-reset]").addEventListener("click", function () { stop(); cycle = 0; render(); });
+  lab.querySelector("[data-fwd]").addEventListener("click", function (e) {
+    fwd = !fwd; e.currentTarget.textContent = "Forwarding: " + (fwd ? "on" : "off"); e.currentTarget.classList.toggle("on", fwd);
+    sched = schedule(); cycle = Math.min(cycle, sched[sched.length - 1].wb); render();
+  });
+  sched = schedule(); render();
+  var auto = false;
+  new IntersectionObserver(function (es) {
+    if (es[0].isIntersecting && !auto) { auto = true; lab.querySelector("[data-play]").click(); }
+  }, { threshold: .5 }).observe(lab);
+})();
+</script>
+</body>
+</html>
